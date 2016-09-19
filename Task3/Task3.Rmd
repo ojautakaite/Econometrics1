@@ -1,0 +1,32 @@
+---
+title: "Task3"
+author: "Orinta Jautakaitë"
+date: '2016 m rugsëjis 19 d '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Use R for Fun!
+
+install.packages('fun')
+
+```{r}
+library(fun)
+if (.Platform$OS.type == "windows") x11() else x11(type = "Xlib")
+mine_sweeper()
+```
+
+```{r}
+library(fun)
+gomoku()
+```
+
+You can take a look at the list of functions in this package by reading the HTML help page (go to help.start()), and I also need to mention the demos, e.g. see demo('TurtleGraphics') for a demo of Turtle graphics (how many people know the old Logo programming language?), and demo(package = 'fun') for a list of all demos in this package.
+
+```{r}
+demo('RealTurtle', package = 'fun')
+```
+
+References: http://yihui.name/en/2011/08/the-fun-package-use-r-for-fun/
