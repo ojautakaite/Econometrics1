@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library('rworldmap')
 ```
 
-## R: Drawing the map of world 
+## R: Drawing the map of the world 
 
 install.packages('rworldmap')
 
