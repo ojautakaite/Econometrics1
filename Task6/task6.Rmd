@@ -1,0 +1,170 @@
+---
+title: "Task6"
+author: "Orinta Jautakaitë"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library('chron')
+```
+
+## Swirl rezultatai
+
+## Nuskaitome duomenis
+
+Nuskaitome duomenis ir patikriname duomenø tipus.
+
+```{r}
+df = read.csv('C:/Users/mano/Desktop/duomenys2.csv' , stringsAsFactors=FALSE)
+
+sapply(df, class)
+```
+
+
+Randame nekorektiðkus duomenø tipus, tai datos. Taigi, reikia mums pakeisti jø tipà: 
+
+```{r}
+df <- transform(df, sysTime = as.POSIXlt(sysTime), datetime = as.POSIXlt(datetime))
+```
+
+##Valome masyvà nuo ðiukðliø. 
+
+Matome, kad kai kurie vartotojai nëra studentai, tokie kaip : "1vbutkus", "aaa", "testas". Juos reikia paðalinti : 
+
+```{r}
+c=df$user %in% c("1vbutkus", "aaa", "testas")
+df2=df[!c,]
+```
+
+Taip pat kai kurie studentai pasiraðinëjo keliais skirtingais vardais, todël juos reikia suvienodinti. 
+
+```{r}
+df2$user[df2$user=="gyse"] <- "gyse3054"
+df2$user[df2$user=="rokasalek"] <- "rokasaleks"
+df2$user[df2$user=="Juste" | df2$user=="ju" | df2$user=="j"] <- "juste"
+unique(df2$user)
+```
+
+Toliau tikriname duomenis dël dubliavimosi :
+
+```{r}
+dfdb <- df2[,c(7, 9, 10, 12, 14)]
+dubl <- which(duplicated(dfdb), TRUE)
+df2 <- df2[-dubl,]
+```
+
+##Studentai yra pilnai atlikæ visas swirl uþduotis
+
+Turime patikrinti, kurie studentai pilnai atliko visas uþduotis. Tai padarysime iðvalydami duomenø lentelæ nuo tø studentø, kurie praleido nors vienà klausimà. 
+```{r}
+c=df2$user %in% c("Dariukxas", "Domante Bulovaite", "Greta", "gretajes", "gyse3054", "juste", "Karolina", "kestous", "ogadova", "ojautakaite",  "Raigardas", "rokasaleks", "SandraKozlovskaja", "simonalevickaite", "sindeivydas")
+table(df2[!(c),7])
+```
+
+Ið karto atmetame: Danielius, Dominykas, nes pagal atsakytø klausimø skaièiø matosi, kad jie neatliko visø uþduoèiø. Sudarome lentelæ ið likusiø studentø:
+
+```{r}
+c=df2$user %in% c("aipe00", "edba2903", "emru3000", "MildaPie", "simona1234", "zagnyte" )
+n=df2[c,]
+
+```
+
+Toliau sudarome lentelæ ið likusiø studentø vsrdø bei visø pamokø, tai pat iðemame besidubliuojanèius duomenis. 
+
+```{r echo=TRUE}
+ d=data.frame(n$user, n$lesson_name)
+ d2=d[!duplicated(d), ]
+```
+
+Patikriname ar visi likæ studentai atliko visas 16 pamokø:
+
+```{r echo=TRUE}
+    table(d2[,1])
+```
+
+Rezultatas toks, kad visas uþduotis atliko ðie studentai : "zagnyte", "aipe00", "simona1234" , "emru3000".
+
+Dabar analizuosime kitus studentus, kurie nepilnai atliko Swirl uþduotis. 
+
+```{r}
+skip=df2[!(df2$user=="aipe00" | df2$user=="emru3000" | df2$user=="simona1234" | df2$user=="zagnyte"),]
+```
+
+Patikriname kiek kuris studentas atliko pamokø:
+
+```{r echo=TRUE}
+skip1=data.frame(skip$user, skip$lesson_name)
+skip2=skip1[!duplicated(skip1), ]
+table(skip2[,1])
+```
+
+Patikriname kiek kuris studentas praleido klausimu:
+
+```{r echo=TRUE}
+table(skip[skip$skipped==TRUE,7])
+```
+
+##Kiek vidutiniðkai uþtrunka atlikti uþduotis?
+
+Sutvarkome lentelæ, kad joje liktø tik kiekvieno studento atliktos pamokos ir jø laikai.
+
+```{r}
+df_time <- df2[,c(3, 6, 7, 9, 13)]
+df3 <- df2[,c(7,9)]
+dup <- which(duplicated(df3), TRUE)
+df_time <- df_time[-dup,]
+real_taketime <- round(difftime(df_time$sysTime, df_time$datetime, units="mins"))
+df_time <- cbind(df_time, real_taketime)
+```
+
+Taip pat galime apskaièiuoti kiek vidutiðkai laiko uþtrunka atlikti kiekvienà pamokà, tai darysime naudodamiesi studentø deklaruojamu laiku.
+
+```{r}
+lessons <- split(df_time, f=df_time$lesson_name)
+time_decl <- sapply(lessons, function(x) round(mean(x$takeTime), 2))
+sort(time_decl)
+```
+
+##Ar galima pasitikëti þmoniø deklaruojamø laiku? 
+
+Taip pat galime apskaièiuoti realø laikà, kurá kiekvienai pamokai atlikti uþtruko studentai. Taèiau tam pirmiausia reikia paðalinti eilutes, kuriose atlikimo laikas yra daugiau kaip 60 minuèiø, kadangi tikëtina, jog tà pamokà studentas atliko ne ið karto.
+
+```{r}
+ind <- with(df_time, which(df_time$real_taketime>60))
+df_time <- df_time[-ind, ]
+lessons <- split(df_time, f=df_time$lesson_name)
+time_taken <- sapply(lessons, function(x) round(mean(x$real_taketime), 2))
+sort(time_taken)
+```
+
+Matosi, kad vidutinis studentø deklaruotas laikas yra ðiek tiek didesnis negu realus laikas.
+Dabar apskaièiuojame skirtumà tarp studentø vidutiðkai deklaruoto laiko ir realaus laiko. 
+
+```{r}
+timedif <- abs(df_time$takeTime - df_time$real_taketime)
+mean(timedif)
+```
+
+##Kurios uþduotys buvo sunkiausios?
+1.Pagal laikà: 
+
+```{r}
+which.max(time_decl)
+```
+
+2.Pagal praleistus klausimus:
+
+```{r}
+s= table(df2$lesson_name, df2$skipped)
+which.max(s[,2])
+```
+
+3.Pagal klaidingø bandymø skaièiø:
+
+```{r}
+b= table(df2$lesson_name, df2$correct)
+which.max(b[,1])
+```
+
+Taigi, darome iðvadà, kad pati sunkiausia uþduotis buvo "Functions"
