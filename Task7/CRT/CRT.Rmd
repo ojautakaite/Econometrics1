@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Generuojame $n$ atsitiktiniu dydziu turinciu Beta skirstini su parametrais $\alpha=\beta=0.5$ Is siu atsitiktiniu dydziu suskaiciuojamas aritmetinis vidurkis. Kaip atrodo aritmetinio vidurkio tankis, kai $n=100$?
 
-1. Sugeneruojame Beta skirstini su parametrais alpha=beta=0.5 ir suskaiciujame aritmetini vidurki:
+1. Sugeneruojame Beta skirstini su parametrais alpha=beta=0.5 ir suskaiciuojame aritmetinius vidurkius:
 
 ```{r}
 n=100
