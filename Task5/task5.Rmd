@@ -1,72 +1,60 @@
+
 ---
-title: "Task 5"
-author: "Simona GritytÄ—, Orinta JautakaitÄ—, Sandra Kozlovskaja, AgnÄ— ZavackaitÄ—"
+title: "Task5"
+author: "Orinta Jautakaitë, Simona Gritytë, Agnë Zavackaitë, Sandra Kazlovskaja"
 output: html_document
 ---
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library('prob')
 ```
 
-## Random variable challenge
+Tarkime, kad ridenami trys taisyklingi standartiniai loğimo kauliukai. Fiksuojama iğkritusiø akuèiø suma, paşymëkime ğá atsitiktiná dydá S.
 
-Tarkime, kad ridenami trys taisyklingi standartiniai loÅ¡imo kauliukai. Fiksuojama iÅ¡kritusiÅ³ akuÄiÅ³ suma, paÅ¾ymÄ—kime Å¡Ä¯ atsitiktinÄ¯ dydÄ¯ S.
-
-1. Atlikite Monte-Carlo modeliavimÄ… sugeneruodami S atsitiktinio dydÅ¾io nepriklausomas realizacijas S1, S2, â€¦, Sn. ÄŒia n=10^5.
-
+1.Atlikite Monte-Carlo modeliavimà sugeneruodami S atsitiktinio dydşio nepriklausomas realizacijas S1, S2, ???, Sn. Èia n=10^5.
 ```{r}
 n <- 10^5
 S <- replicate(n, sum(sample(1:6, 3, replace = TRUE)))
 head(S, 15)
 ```
+Aukğèiau pateikta 15 pirmø atsitiktinio dydşio S realizacijø.
 
-AukÅ¡Äiau pateikta 15 pirmÅ³ atsitiktinio dydÅ¾io S realizacijÅ³.
-
-2. Raskite teorinÄ¯ S skirstinÄ¯, t.y. kiekvienai galimai S reikÅ¡mei raskite pasirodymo tikimybÄ™.
-
+2.Raskite teoriná S skirstiná, t.y. kiekvienai galimai S reikğmei raskite pasirodymo tikimybæ.
 ```{r}
-St <- rolldie(3, nsides = 6, makespace = TRUE)
+St <- rolldie (3, nsides = 6, makespace = TRUE)
 St <- addrv(St, sum = X1 + X2 + X3)
 S_teor <- marginal(St, vars="sum")
 S_teor
 ```
+Ğio kodo pavyzdá radome knygoje Kerns, G. Jay. 2011. ´Introduction to Probability and Statistics Using R.¡.
 
-Å io kodo pavyzdÄ¯ radome knygoje Kerns, G. Jay. 2011. â€œIntroduction to Probability and Statistics Using R.â€.
-
-3. IÅ¡ sugeneruotos imties, padarykite santykiniÅ³ daÅ¾niÅ³ lentelÄ™ ir gautas reikÅ¡mes palyginkite su teorinÄ—mis tikimybÄ—mis. Palyginimui pateikite grafikÄ… ir lentelÄ™, taip, kad bÅ«tÅ³ patogu lyginti gautus rezultatus.
-
+3.Iğ sugeneruotos imties, padarykite santykiniø daşniø lentelæ ir gautas reikğmes palyginkite su teorinëmis tikimybëmis. Palyginimui pateikite grafikà ir lentelæ, taip, kad bûtø patogu lyginti gautus rezultatus.
 ```{r}
 cbind(as.data.frame(table(S)/n), S_teor)
 ```
 
-TeorinÄ—s tikimybÄ—s pateiktos deÅ¡inÄ—je.
-
+Teorinës tikimybës pateiktos değinëje.
 ```{r}
-plot(table(S)/n, xlab="Suma", ylab="TikimybÄ—")
+plot(table(S)/n, xlab="Suma", ylab="Tikimybë")
 points(S_teor, col=2)
 ```
+Raudoni tağkai şymi teorines tikimybes.
 
-Raudoni taÅ¡kai Å¾ymi teorines tikimybes.
-
-4. SuskaiÄiuokite teorinÄ¯ S vidurkÄ¯ ir dispersijÄ…. Padarykite grafikus, kuriuose matytÅ³si, kaip didÄ—jant n minÄ—tÅ³ charakteristikÅ³ Ä¯vertiniai artÄ—ja Ä¯ teorines reikÅ¡mes.
+4.Suskaièiuokite teoriná S vidurká ir dispersijà. Padarykite grafikus, kuriuose matytøsi, kaip didëjant n minëtø charakteristikø ávertiniai artëja á teorines reikğmes.
 
 Teorinis vidurkis:
-
 ```{r}
 ES <- sum(S_teor$probs * S_teor$sum)
 ES
 ```
-
-TeorinÄ— dispersija:
-
+Teorinë dispersija:
 ```{r}
 varS <- sum(S_teor$probs * (S_teor$sum-ES)^2)
 varS
 ```
 
 ```{r}
-plot(cumsum(S)/1:n, type="l", xlab="n", ylab = "S / n", main="Vidurkio artÄ—jimas Ä¯ teorinÄ¯")
+plot(cumsum(S)/1:n, type="l", xlab="n", ylab = "S / n", main="Vidurkio artëjimas á teoriná")
 abline(h=ES, col=2)
 
 a=S*0
@@ -74,6 +62,7 @@ for(i in 1:10000){
   a[i]=var(S[1:i])
 }
 
-plot(a[1:10000], type="l", xlab="n", ylab="varS", main="Dispersijos artÄ—jimas Ä¯ teorinÄ™")
+plot(a[1:10000], type="l", xlab="n", ylab="varS", main="Dispersijos artëjimas á teorinæ")
 abline(h=varS, col=2)
 ```
+

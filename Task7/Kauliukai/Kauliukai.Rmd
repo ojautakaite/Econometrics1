@@ -1,0 +1,29 @@
+
+
+---
+title: "Kauliukai"
+author: "Orinta Jautakaitë"
+date: '2016 m rugsëjis 30 d '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Du þaidëjai þaidþia toká þaidimà. Pirmasis þaidëjas meta tris kauliukus ir fikuoja iðkritusiø taðkø sumà. Antrasis þaidëjas ridena du kauliukus ir skiaèiuoja iðkrituiø taðkø sumà. Laimi tas þaidëjas, kurio taðkø suma yra didesnë. Jeigu taðkø sumos yra lygios, tai, tai ekspermentas kartojamas ið naujo (ir taip kartojama tol, kol galiausiai nustatomas laimëtojas). Kokia tikimybë laimëti pirmajam þaidëjui?
+
+```{r}
+n=10^4
+x1 <- replicate(n, sum(sample(1:6, 3, replace = TRUE)))
+x2 <- replicate(n, sum(sample(1:6, 2, replace = TRUE)))
+
+x1_laimi<- sum((x1>x2)==TRUE)
+ismetami=sum((x1==x2)==TRUE)
+
+prob<-x1_laimi/(n-ismetami)
+prob
+
+
+```
+
