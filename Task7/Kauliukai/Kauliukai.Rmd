@@ -18,7 +18,7 @@ n=10^4
 x1 <- replicate(n, sum(sample(1:6, 3, replace = TRUE))) #skaièiuojame sumas, kurias iðridena pirmasis þaidëjas
 x2 <- replicate(n, sum(sample(1:6, 2, replace = TRUE))) #skaièiuojame sumas, kurias iðridena antrasis þaidëjas 
 
-x1_laimi<- sum((x1>x2)==TRUE) #apskaèiuojame kiek kartø pirmasis þaidëjas iðrideno didesnes sumas uþ antràjá
+x1_laimi<- sum((x1>x2)==TRUE) #apskaèiuojame kiek kartø pirmasis þaidëjas iðrideno didesnæ sumà uþ antràjá
 ismetami=sum((x1==x2)==TRUE) #suskaièiuojame tuos bandymus, kur iðridentos sumos yra lygios
 
 prob<-x1_laimi/(n-ismetami) #Skaièiuojame tikimybe, laimëti pirmajam þaidëjui

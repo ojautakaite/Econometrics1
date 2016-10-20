@@ -127,12 +127,12 @@ $(document).ready(function () {
 x1 &lt;- replicate(n, sum(sample(1:6, 3, replace = TRUE))) #skaičiuojame sumas, kurias išridena pirmasis žaidėjas
 x2 &lt;- replicate(n, sum(sample(1:6, 2, replace = TRUE))) #skaičiuojame sumas, kurias išridena antrasis žaidėjas 
 
-x1_laimi&lt;- sum((x1&gt;x2)==TRUE) #apskačiuojame kiek kartų pirmasis žaidėjas išrideno didesnes sumas už antrąjį
+x1_laimi&lt;- sum((x1&gt;x2)==TRUE) #apskačiuojame kiek kartų pirmasis žaidėjas išrideno didesnę sumą už antrąjį
 ismetami=sum((x1==x2)==TRUE) #suskaičiuojame tuos bandymus, kur išridentos sumos yra lygios
 
 prob&lt;-x1_laimi/(n-ismetami) #Skaičiuojame tikimybe, laimėti pirmajam žaidėjui
 prob</code></pre>
-<pre><code>## [1] 0.8421957</code></pre>
+<pre><code>## [1] 0.8358578</code></pre>
 
 
 
