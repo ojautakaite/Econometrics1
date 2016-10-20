@@ -1,0 +1,31 @@
+---
+title: "Moneta"
+author: "Orinta Jautakaitë"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Moneta
+Tarkime metama moneta. Jeigu iskrenta herbas, tai laimite $12$ EUR. Jeigu skaicius, tai pralosiate $10$ EUR. Bus zaidziama $100$ kartu ir gauti rezultatai sumuojami. Kokia tikimybe jums tureti teigiama balansa po $100$ kartu? 
+
+
+```{r}
+n=10000
+rez<-replicate(n, sum(sample(c(12, -10), 100, replace = TRUE)))
+teigiamas_balansas<-rez>0
+P=sum(teigiamas_balansas)/n #skaièiuojame kokia bus tikimybë turëti teigiamà balansà
+P
+```
+
+
+Koks balanso pasikliautinis $95%$ intervalas? Kaip atrodo balanso tankis?
+
+```{r }
+quantile(rez, probs = c(0.025, 0.975)) # Pasikliautinis 95% intervalas
+
+plot(density(rez), main="Balanso tankis") # Balanso tankis
+```
+

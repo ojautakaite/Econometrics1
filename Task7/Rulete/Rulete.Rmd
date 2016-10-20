@@ -1,0 +1,29 @@
+---
+title: "Rulete"
+author: "Orinta Jautakaitë"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Rulete
+
+Nagrinëkime standartinæ kazino ruletæ(1 þalias, 18 juodø, 18 raudonø langeliø) Kokia tikimybë, kad po $1000$ vienodø statymø ant vienos pasirinktos spalvos, bus teigiamas balansas? 
+
+```{r }
+n=10000
+balansai<-replicate(n, sum(sample(c(-1,1), 1000, replace=TRUE, prob=c(19/37, 18/37))))
+teigiamas_balansas<-balansai>0
+P=sum(teigiamas_balansas)/n #skaièiuojame teigiamo balanso tikimybæ
+P
+```
+
+Raskite apytikslæ $x$ reikðmæ, kuriai galioja nelygybe $P(balansas<x) = 0.25$.
+
+```{r }
+x<-quantile(balansai, probs=0.25)
+x
+```
+
