@@ -126,9 +126,9 @@ $(document).ready(function () {
 </div>
 <div id="nuskaitome-duomenis" class="section level2">
 <h2>Nuskaitome duomenis</h2>
-<p>Nuskaitome duomenis ir patikriname duomenų tipus.</p>
-<pre class="r"><code>df = read.csv('C:/Users/mano/Desktop/duomenys2.csv' , stringsAsFactors=FALSE)
-
+<p>Pirmiausiai nuskaitome duomenis, juos perziurime ir patikriname duomenu tipus.</p>
+<pre class="r"><code>df = read.csv('R_programing_swirlResults.csv', stringsAsFactors=FALSE)
+View(df)
 sapply(df, class)</code></pre>
 <pre><code>##               X            name        takeTime         sysUser 
 ##       &quot;integer&quot;     &quot;character&quot;       &quot;integer&quot;     &quot;character&quot; 
@@ -138,15 +138,15 @@ sapply(df, class)</code></pre>
 ##     &quot;character&quot;       &quot;integer&quot;       &quot;logical&quot;       &quot;integer&quot; 
 ##        datetime         skipped 
 ##     &quot;character&quot;       &quot;logical&quot;</code></pre>
-<p>Randame nekorektiškus duomenų tipus, tai datos. Taigi, reikia mums pakeisti jų tipą:</p>
+<p>Randame nekorektiskus duomenu tipus, tai datos. Taigi, reikia mums pakeisti ju tipa:</p>
 <pre class="r"><code>df &lt;- transform(df, sysTime = as.POSIXlt(sysTime), datetime = as.POSIXlt(datetime))</code></pre>
 </div>
 <div id="valome-masyva-nuo-siuksliu." class="section level2">
-<h2>Valome masyvą nuo šiukšlių.</h2>
-<p>Matome, kad kai kurie vartotojai nėra studentai, tokie kaip : “1vbutkus”, “aaa”, “testas”. Juos reikia pašalinti :</p>
+<h2>Valome masyva nuo siuksliu.</h2>
+<p>Matome, kad kai kurie vartotojai nera studentai, tokie kaip : “1vbutkus”, “aaa”, “testas”. Juos reikia pasalinti :</p>
 <pre class="r"><code>c=df$user %in% c(&quot;1vbutkus&quot;, &quot;aaa&quot;, &quot;testas&quot;)
 df2=df[!c,]</code></pre>
-<p>Taip pat kai kurie studentai pasirašinėjo keliais skirtingais vardais, todėl juos reikia suvienodinti.</p>
+<p>Taip pat kai kurie studentai pasirasinejo keliais skirtingais vardais, todel juos reikia suvienodinti.</p>
 <pre class="r"><code>df2$user[df2$user==&quot;gyse&quot;] &lt;- &quot;gyse3054&quot;
 df2$user[df2$user==&quot;rokasalek&quot;] &lt;- &quot;rokasaleks&quot;
 df2$user[df2$user==&quot;Juste&quot; | df2$user==&quot;ju&quot; | df2$user==&quot;j&quot;] &lt;- &quot;juste&quot;
@@ -159,14 +159,14 @@ unique(df2$user)</code></pre>
 ## [16] &quot;Domante Bulovaite&quot; &quot;Raigardas&quot;         &quot;Greta&quot;            
 ## [19] &quot;gretajes&quot;          &quot;juste&quot;             &quot;Dariukxas&quot;        
 ## [22] &quot;simonalevickaite&quot;  &quot;Danielius&quot;</code></pre>
-<p>Toliau tikriname duomenis dėl dubliavimosi :</p>
+<p>Toliau tikriname duomenis del dubliavimosi, randame besidubliujancius duomenis ir juos pasaliname :</p>
 <pre class="r"><code>dfdb &lt;- df2[,c(7, 9, 10, 12, 14)]
 dubl &lt;- which(duplicated(dfdb), TRUE)
 df2 &lt;- df2[-dubl,]</code></pre>
 </div>
 <div id="studentai-yra-pilnai-atlike-visas-swirl-uzduotis" class="section level2">
-<h2>Studentai yra pilnai atlikę visas swirl užduotis</h2>
-<p>Turime patikrinti, kurie studentai pilnai atliko visas užduotis. Tai padarysime išvalydami duomenų lentelę nuo tų studentų, kurie praleido nors vieną klausimą.</p>
+<h2>Studentai yra pilnai atlike visas swirl uzduotis</h2>
+<p>Turime patikrinti, kurie studentai pilnai atliko visas uzduotis. Tai padarysime isvalydami duomenu lentele nuo tu studentu, kurie praleido nors viena klausima.</p>
 <pre class="r"><code>c=df2$user %in% c(&quot;Dariukxas&quot;, &quot;Domante Bulovaite&quot;, &quot;Greta&quot;, &quot;gretajes&quot;, &quot;gyse3054&quot;, &quot;juste&quot;, &quot;Karolina&quot;, &quot;kestous&quot;, &quot;ogadova&quot;, &quot;ojautakaite&quot;,  &quot;Raigardas&quot;, &quot;rokasaleks&quot;, &quot;SandraKozlovskaja&quot;, &quot;simonalevickaite&quot;, &quot;sindeivydas&quot;)
 table(df2[!(c),7])</code></pre>
 <pre><code>## 
@@ -174,22 +174,22 @@ table(df2[!(c),7])</code></pre>
 ##        344          3          2        280        413        346 
 ## simona1234    zagnyte 
 ##        333        378</code></pre>
-<p>Iš karto atmetame: Danielius, Dominykas, nes pagal atsakytų klausimų skaičių matosi, kad jie neatliko visų užduočių. Sudarome lentelę iš likusių studentų:</p>
+<p>Is karto atmetame: Danielius, Dominykas, nes pagal atsakytu klausimu skaiciu matosi, kad jie neatliko visu uzduociu. Sudarome lentele is likusiu studentu:</p>
 <pre class="r"><code>c=df2$user %in% c(&quot;aipe00&quot;, &quot;edba2903&quot;, &quot;emru3000&quot;, &quot;MildaPie&quot;, &quot;simona1234&quot;, &quot;zagnyte&quot; )
 n=df2[c,]</code></pre>
-<p>Toliau sudarome lentelę iš likusių studentų vsrdų bei visų pamokų, tai pat išemame besidubliuojančius duomenis.</p>
+<p>Toliau sudarome lentele is likusiu studentu vardu bei visu pamoku.</p>
 <pre class="r"><code> d=data.frame(n$user, n$lesson_name)
  d2=d[!duplicated(d), ]</code></pre>
-<p>Patikriname ar visi likę studentai atliko visas 16 pamokų:</p>
+<p>Patikriname ar visi like studentai atliko visas 16 pamoku:</p>
 <pre class="r"><code>    table(d2[,1])</code></pre>
 <pre><code>## 
 ##     aipe00   edba2903   emru3000   MildaPie simona1234    zagnyte 
 ##         16         11         16         15         16         16</code></pre>
-<p>Rezultatas toks, kad visas užduotis atliko šie studentai : “zagnyte”, “aipe00”, “simona1234” , “emru3000”.</p>
-<p>Dabar analizuosime kitus studentus, kurie nepilnai atliko Swirl užduotis.</p>
+<p>Rezultatas toks, kad visas uzduotis atliko sie studentai : “zagnyte”, “aipe00”, “simona1234” , “emru3000”.</p>
+<p>Dabar analizuosime kitus studentus, kurie nepilnai atliko Swirl uzduotis.Todel pasaliname tuos studentus, kurie atliko visas uzduotis.</p>
 <pre class="r"><code>skip=df2[!(df2$user==&quot;aipe00&quot; | df2$user==&quot;emru3000&quot; | df2$user==&quot;simona1234&quot; | df2$user==&quot;zagnyte&quot;),]</code></pre>
-<p>Patikriname kiek kuris studentas atliko pamokų:</p>
-<pre class="r"><code>skip1=data.frame(skip$user, skip$lesson_name)
+<p>Patikriname kiek kuris studentas atliko pamoku:</p>
+<pre class="r"><code>skip1=data.frame(skip$user, skip$lesson_name) 
 skip2=skip1[!duplicated(skip1), ]
 table(skip2[,1])</code></pre>
 <pre><code>## 
@@ -216,18 +216,18 @@ table(skip2[,1])</code></pre>
 ##                16                 5                18</code></pre>
 </div>
 <div id="kiek-vidutiniskai-uztrunka-atlikti-uzduotis" class="section level2">
-<h2>Kiek vidutiniškai užtrunka atlikti užduotis?</h2>
+<h2>Kiek vidutiniskai uztrunka atlikti uzduotis?</h2>
 <p>Sutvarkome lentelę, kad joje liktų tik kiekvieno studento atliktos pamokos ir jų laikai.</p>
 <pre class="r"><code>df_time &lt;- df2[,c(3, 6, 7, 9, 13)]
 df3 &lt;- df2[,c(7,9)]
 dup &lt;- which(duplicated(df3), TRUE)
 df_time &lt;- df_time[-dup,]
-real_taketime &lt;- round(difftime(df_time$sysTime, df_time$datetime, units=&quot;mins&quot;))
+real_taketime &lt;- round(difftime(df_time$sysTime, df_time$datetime, units=&quot;mins&quot;)) #apskaiciuojame kiek is tikruju laiko  studentai uztruko atlikdami uzduotis
 df_time &lt;- cbind(df_time, real_taketime)</code></pre>
-<p>Taip pat galime apskaičiuoti kiek vidutiškai laiko užtrunka atlikti kiekvieną pamoką, tai darysime naudodamiesi studentų deklaruojamu laiku.</p>
+<p>Galime apskaiciuoti kiek vidutiskai laiko uztrunka atlikti kiekviena pamoka, tai darysime naudodamiesi studentu deklaruojamu laiku.</p>
 <pre class="r"><code>lessons &lt;- split(df_time, f=df_time$lesson_name)
 time_decl &lt;- sapply(lessons, function(x) round(mean(x$takeTime), 2))
-sort(time_decl)</code></pre>
+sort(time_decl) #pateikiame gautus duomenis</code></pre>
 <pre><code>##             Dummy Lesson           Missing Values    Basic Building Blocks 
 ##                     5.81                     9.62                    11.90 
 ##     Sequences of Numbers          Looking at Data                  Vectors 
@@ -242,13 +242,13 @@ sort(time_decl)</code></pre>
 ##                    30.94</code></pre>
 </div>
 <div id="ar-galima-pasitiketi-zmoniu-deklaruojamu-laiku" class="section level2">
-<h2>Ar galima pasitikėti žmonių deklaruojamų laiku?</h2>
-<p>Taip pat galime apskaičiuoti realų laiką, kurį kiekvienai pamokai atlikti užtruko studentai. Tačiau tam pirmiausia reikia pašalinti eilutes, kuriose atlikimo laikas yra daugiau kaip 60 minučių, kadangi tikėtina, jog tą pamoką studentas atliko ne iš karto.</p>
-<pre class="r"><code>ind &lt;- with(df_time, which(df_time$real_taketime&gt;60))
-df_time &lt;- df_time[-ind, ]
+<h2>Ar galima pasitiketi zmoniu deklaruojamu laiku?</h2>
+<p>Taip pat galime apskaiciuoti kiek vidutiskai laiko uztrunka atlikti kiekviena pamoka naudodamiesi realiu laiku, kuri kiekvienai pamokai atlikti uztruko studentai. Taciau tam pirmiausia reikia pasalinti eilutes, kuriose atlikimo laikas yra daugiau kaip 60 minuciu, kadangi tiketina, jog ta pamoka studentas atliko ne is karto.</p>
+<pre class="r"><code>ind &lt;- with(df_time, which(df_time$real_taketime&gt;60)) #randame tas eilutes, kuriose atlikimo laikas yra didesnis nei 60min.
+df_time &lt;- df_time[-ind, ] #pasaliname jas
 lessons &lt;- split(df_time, f=df_time$lesson_name)
-time_taken &lt;- sapply(lessons, function(x) round(mean(x$real_taketime), 2))
-sort(time_taken)</code></pre>
+time_taken &lt;- sapply(lessons, function(x) round(mean(x$real_taketime), 2)) #randame realu laika, kuri is tikruju uztruko studentai atlikdami kiekviena is uzduociu
+sort(time_taken) #pateikiame gautus duomenis</code></pre>
 <pre><code>##             Dummy Lesson          Looking at Data           Missing Values 
 ##                     0.90                     5.50                     7.43 
 ##        vapply and tapply            Base Graphics          Dates and Times 
@@ -261,28 +261,29 @@ sort(time_taken)</code></pre>
 ##                    21.69                    21.85                    22.74 
 ##                Functions 
 ##                    28.17</code></pre>
-<p>Matosi, kad vidutinis studentų deklaruotas laikas yra šiek tiek didesnis negu realus laikas. Dabar apskaičiuojame skirtumą tarp studentų vidutiškai deklaruoto laiko ir realaus laiko.</p>
+<p>Lyginame gautus duomenis ir matome, kad vidutinis studentų deklaruotas laikas yra siek tiek didesnis negu realus laikas. Dabar apskaiciuojame skirtuma tarp studentu vidutiskai deklaruoto laiko ir realaus laiko.</p>
 <pre class="r"><code>timedif &lt;- abs(df_time$takeTime - df_time$real_taketime)
-mean(timedif)</code></pre>
+mean(timedif) </code></pre>
 <pre><code>## Time difference of 7.077441 mins</code></pre>
+<p>Taigi, matome, kad skirtumas nera labai didelis, todel galima pasitiketi laiku, kuri deklaravo studentai.</p>
 </div>
 <div id="kurios-uzduotys-buvo-sunkiausios" class="section level2">
-<h2>Kurios užduotys buvo sunkiausios?</h2>
-<p>1.Pagal laiką:</p>
+<h2>Kurios uzduotys buvo sunkiausios?</h2>
+<p>1.Pagal laika:</p>
 <pre class="r"><code>which.max(time_decl)</code></pre>
 <pre><code>## Functions 
 ##         5</code></pre>
 <p>2.Pagal praleistus klausimus:</p>
-<pre class="r"><code>s= table(df2$lesson_name, df2$skipped)
-which.max(s[,2])</code></pre>
+<pre class="r"><code>skip= table(df2$lesson_name, df2$skipped)
+which.max(skip[,2])</code></pre>
 <pre><code>## Functions 
 ##         5</code></pre>
-<p>3.Pagal klaidingų bandymų skaičių:</p>
-<pre class="r"><code>b= table(df2$lesson_name, df2$correct)
-which.max(b[,1])</code></pre>
+<p>3.Pagal klaidingu bandymu skaiciu:</p>
+<pre class="r"><code>kl= table(df2$lesson_name, df2$correct)
+which.max(kl[,1])</code></pre>
 <pre><code>## Logic 
 ##     7</code></pre>
-<p>Taigi, darome išvadą, kad pati sunkiausia užduotis buvo “Functions”</p>
+<p>Taigi, darome isvada, kad pacios sunkiausios uzduotys buvo “Functions” ir “Logic”</p>
 </div>
 
 
