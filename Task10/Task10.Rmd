@@ -1,0 +1,33 @@
+---
+title: "Task10"
+author: "Orinta Jautakaitë"
+date: '2016 m spalis 21 d '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library('scales')
+```
+
+## 10 Task
+
+a) Tegul $x_1, ..., X_{100} \sim N(1, 2)$. Susigeneruokite tokià imtá ir patikrinkite nulinæ hipotezæ, kad $H_0: \mu=1$, su alternatyva, kad $\mu\neq 1$. Tam rekalinga funkcija t.test. Detaliai paaiðkinkite kà reiðkia funkcijos iðvestyje pateikti skaièiai.
+
+```{r }
+x<-rnorm(100, mean = 1, sd = 2) #sugeneruojame imtá
+y=t.test(x, alternative="two.sided", mu=1)  #su funkcija t.test patikriname ar sugeneruotos imties tikrasis vidurkis lygus 1. 
+y
+```
+Matome, kad funkcijos t.test iðvestyje pateikiama p-value reikðmë, pagal kurià sprendþiame atmesti nulinæ hipotezæ ar ne. Hipotezæ tikriname su reikðmingumo lygmeniu 0.05, tai vadinasi nulinæ hipotezæ atmetame tada, kai p-value<0.05 (p.value - tikimybë atmesti teisingà nulinæ hipotezæ.) 
+
+b) Kartokite a) dalies generavima daug kartø (pvz.10^4) ir suskaièiuokite kiek atvejø buvo atmesta nulinë hipotezë? Iðreiðkite ðá skaièiø procentais. Kokià iðvadà galite padaryti?
+
+```{r }
+set.seed(2022)
+c=replicate(10000, t.test(rnorm(100, mean = 1, sd = 2), alternative="two.sided", mu=1))
+kar=sum(c[3,]<0.05) # Ho atmetame, jei p reikðmë p<0,05
+percent(kar/ 10000) # naudojame paketà 'scales'
+```
+
+Iðvada: Gauname, kad tokiø atvejø, kai atmetame nulinæ hipotezæ, nors ji yra teisinga, yra apie 5% . To ir buvo galima tikëtis, nes ðià hipotezæ tikrinime su reikðmingumo lygmeniu 0.05. 
