@@ -19,7 +19,8 @@ x<-rnorm(100, mean = 1, sd = 2) #sugeneruojame imtá
 y=t.test(x, alternative="two.sided", mu=1)  #su funkcija t.test patikriname ar sugeneruotos imties tikrasis vidurkis lygus 1. 
 y
 ```
-Matome, kad funkcijos t.test iðvestyje pateikiama p-value reikðmë, pagal kurià sprendþiame atmesti nulinæ hipotezæ ar ne. Hipotezæ tikriname su reikðmingumo lygmeniu 0.05, tai vadinasi nulinæ hipotezæ atmetame tada, kai p-value<0.05 (p.value - tikimybë atmesti teisingà nulinæ hipotezæ.) 
+Matome, kad funkcijos t.test pateikiama p-value reikðmë, pagal kurià sprendþiame atmesti nulinæ hipotezæ ar ne. Hipotezæ tikriname su reikðmingumo lygmeniu 0.05, tai vadinasi nulinæ hipotezæ atmetame tada, kai p-value<0.05 (p.value - tikimybë atmesti teisingà nulinæ hipotezæ.). 
+Matome ir 95% pasikliautinumo intervalà(kuris reiðkia, kad yra 0.95 tikimybë, kad vidurkis yra ðiame intervale), pagal kurá taip pat galime spræsti atmesti ar ne nulinæ hipotezæ, nes jei á ðá intervalà nepatenka vidurkio reikðmë, kuri lygi 1, tai nulinæ hipotezæ atmetame. 
 
 b) Kartokite a) dalies generavima daug kartø (pvz.10^4) ir suskaièiuokite kiek atvejø buvo atmesta nulinë hipotezë? Iðreiðkite ðá skaièiø procentais. Kokià iðvadà galite padaryti?
 
