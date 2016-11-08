@@ -1,0 +1,60 @@
+---
+title: "Task11"
+author: "Orinta Jautakaitë"
+date: '2016 m lapkritis 8 d '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Task 11
+
+Pakete datasets yra duomenø masyvas longley. Ið ðio kintamøjø padarykite tiesinæ regresijà, kur prognozuojamas kintamasis bûtø GNP, o regresosius Employed. Jums reikia:
+
+1.Ávertinti paprastosios tiesinës regresijos modelá. Pateikti modelio summary ir pakomentuoti kà reiðkia gauti skaièiai. Kaip interpretuoti gautus rezultatus?
+
+Taigi, ávertiname paprastosios tieisinës regresijos modelá su funkcijà lm ir pateikiame ðio modelio summary.
+
+```{r}
+x = longley$Employed
+y = longley$GNP
+mod = lm(y~x)
+summary(mod)
+
+```
+
+
+'Residuals' - rodo paklaidà, t.y. rodo skirtumà tarp prognozuojamø duomenø ir mûsø stebimø duomenø.
+'Coefficients'- matome parametrø áverèius, jø standartiná nuokrypá taip pat Stjudento kriterijaus t reikðmë ir tikimybæ, kuri parodo su kokiu reikðmingumo lygmeniu ðie áverèiai yra reikðmingi.
+'Residual standard error' - Rodo paklaidø standartiná nuokrypá nuo modelio. 
+'Multiple R-squared' - tai matas, kuris vertina modelio patikimumà. Kuo ðis skaièius yra arèiau 1, tuo modelis patikimesnis. 
+
+
+2.Padarykite modelio prognozes taðkuose $62, 65, 68$.
+
+
+```{r }
+newx = c(62, 65, 68)
+newy = predict(mod, newdata=data.frame(x=newx))
+newy
+
+```
+
+
+3.Iðbrëþkite kintamøjø sklaidos diagramà kartu su tiesinës regresijos tiese ir naujomis prognozëmis. Grafikà pateikite su pilna legena, kurioje bûtø nurodyti visi þymëjimai.
+
+
+```{r}
+plot(x, y, xlab='Employed', ylab='GNP')
+abline(mod, col=2)
+points(newx, newy, col=3, pch=19)
+legend("bottomright", c("Duomenys","Tiesinës regresijos  tiesë", "Naujos prognozës"), lty=c(0,1,0), pch=c(1,NA,19), col=c(1,2,3))
+```
+
+
+Naudojausi : http://blog.yhat.com/posts/r-lm-summary.html
+
+
+
