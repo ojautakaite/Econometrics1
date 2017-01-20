@@ -1,0 +1,58 @@
+---
+title: "Task1"
+author: "Orinta Jautakaitė"
+date: '2017 m sausis 20 d '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Sugeneruokite x su pateiktu R kodu.
+
+
+```{r}
+set.seed(1234567890) 
+x <- rnorm(5000) #sugeneruojame x 
+```
+
+a) Suraskite x vidukio ir standartinio nuokrypio įverčius.
+
+```{r}
+vidurkis=mean(x) #randame vidurki
+vidurkis
+
+St_nuo=sd(x) #randame standartini nuokrypi
+St_nuo
+
+```
+
+b)Raskite x išskirtis. Šioje užduotyje, išskirtimis laikome reikšmes, kurios nepakliūna į intervalą
+[X¯−3sd^];X¯+3sd^].Čia X¯ ir sd^ atitinkamai žymi vidukio ir standartinio nuokrypio įverčius. Atsakymui pateikite ir reikšmes, ir atitinkamus reikšmių indeksus.
+
+```{r}
+a=vidurkis-3*St_nuo #randame intervala
+a
+
+b=vidurkis+3*St_nuo
+b
+
+c2=x[x<a] # randame, reiksmes, kurios nepatenka i intervala
+c2
+
+d2=x[x>b]
+d2
+```
+
+c)Pašalinkite rastas išskirtis iš x vektorius ir nubrėžkite atnaujinto x histogramą.
+
+```{r}
+pasalinimas=x[!(x<a)] # pasaliname reiksmes, kurios nepapuole i intervala
+pasalinimas2=pasalinimas[!(x>b)]
+
+hist(pasalinimas2, main="Histograma", ylab="x", xlab="Intervalas") # nubreziame atnaujinto x histograma
+
+```
+
+

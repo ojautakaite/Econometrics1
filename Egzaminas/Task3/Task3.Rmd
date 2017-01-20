@@ -1,0 +1,42 @@
+---
+title: "Task3"
+author: "Orinta Jautakaitė"
+date: '2017 m sausis 20 d '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Faile ‘data_a.csv’ yra pateikti duomenys reikalingi tiesinės regresijos tyrimui. Duomenų masyvo aprašymas pateiktas minėto failo pradžioje.
+1.Duomenų apžvalga ir paruošimas. Šioje dalyje jums reikia susipažinti su duomenimis ir paruošti duomenis tolimesnei analizei.
+
+a)Nuskaitykite duomenų masyvą. Jeigu įmanoma, nekoreguokite originalaus failo.
+
+```{r}
+#data2=read.table('data.csv', skip =7, stringsAsFactors=FALSE)
+```
+
+b)Paruoškite duomenis naudojimui.
+
+```{r }
+#sapply(data2, class) #patikriname klases, kad galetume patikrinti visu duomenu tipus, jei duomenu tipai nekorektiski, juos galime pakeisti su funkcija transform
+
+#sal=sum(is.na(data2)) # suskaiciuojame kiek elementu yra su trukstamomis reiksmemis
+#duom=data2[!is.na(data2)] #pasaliname trukstamas reiksmes
+
+```
+
+d) Duomenų masyvą suskaidykite į du atskirus ir nesikertančius masyvus. Didesnį masyvą turi sudaryti apie 80 proc. turimų stebėjimų. Šį masyvą vadinsime trainSet. Mažesnį masyvą turi sudaryti likę įrašai. Šį masyvą vadinsime testSet. Duomenų suskaidymas turi būti atsitiktinis. Gali būti naudingos šios funkcijos:sample, setdiff, %in%.
+
+```{r}
+#n=nrow(duom) #suskaiciuojame kiek failas turi eiluciu
+#m=sample(1:n, n*0.8) # tada atsitiktinai isrenkame 80% eiluciu 
+#trainSet=a[m,] 
+#testSet=a[!m,]
+```
+
+
+
+
